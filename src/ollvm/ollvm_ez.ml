@@ -67,9 +67,9 @@ module Instr = struct
   let alloca ?(nb=None) ?(align=None) t =
     (Type.pointer t, Ollvm_ast.INSTR_Alloca (t, nb, align))
 
-  let load ?(volatile=false) ?(align=None) (ptr_t, value) =
+  let load ?(volatile=false) ?(align=None) typ ((ptr_t, _) as pointer) =
     let Ollvm_ast.TYPE_Pointer t = ptr_t in
-    (t, Ollvm_ast.INSTR_Load (volatile, (ptr_t, value), align))
+    (t, Ollvm_ast.INSTR_Load (volatile, typ, ident pointer, align))
 
   let store ?(volatile=false)? (align=None) value pointer =
     (Type.void, Ollvm_ast.INSTR_Store (volatile, value, ident pointer, align))

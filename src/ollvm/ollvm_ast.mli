@@ -164,7 +164,7 @@ and instr =
   | INSTR_InsertValue of tvalue * tvalue * int list
   | INSTR_Call of tident * tvalue list
   | INSTR_Alloca of typ * tvalue option * int option
-  | INSTR_Load of bool * tvalue * int option
+  | INSTR_Load of bool * typ * tident * int option
   | INSTR_Phi of typ * (value * ident) list
   | INSTR_Select of tvalue * tvalue * tvalue
   | INSTR_VAArg

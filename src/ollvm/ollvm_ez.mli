@@ -3,7 +3,7 @@
 (** Basic predefined common types and type making functions. *)
 module Type : sig
 
-  open Ollvm_ast
+  (* open Ollvm_ast *)
 
   type t = Ollvm_ast.typ
 
@@ -69,7 +69,7 @@ module Instr : sig
 
   (** [load ptr] yields value stored in [ptr] alloca.
       Use [align] to specify the alignment option (default is None) *)
-  val load : ?volatile:bool -> ?align:int option -> Value.t -> t
+  val load : ?volatile:bool -> ?align:int option -> Type.t -> Value.t -> t
 
   (** [store val ptr] store [val] in [ptr] alloca. *)
   (* FIXME: should return instr instead of t? *)

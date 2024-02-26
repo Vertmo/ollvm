@@ -219,7 +219,7 @@ declaration:
     dc_ret_typ=typ
     name=GLOBAL
     LPAREN dc_args=separated_list(COMMA, dc_arg) RPAREN
-    post_attrs=global_attr*
+    global_attr*
     { {dc_type=TYPE_Function(dc_ret_typ, List.map fst dc_args);
        dc_name=ID_Global name;
        dc_param_attrs=(dc_ret_attrs, List.map snd dc_args);} }
@@ -451,8 +451,8 @@ instr:
     { let (n, a) = match opt with Some x -> x | None -> (None, None) in
       INSTR_Alloca (t, n, a) }
 
-  | KW_LOAD vol=KW_VOLATILE? tv=tvalue a=preceded(COMMA, align)?
-    { INSTR_Load (vol<>None, tv, a) }
+  | KW_LOAD vol=KW_VOLATILE? ty=typ COMMA tv=tident a=preceded(COMMA, align)?
+    { INSTR_Load (vol<>None, ty, tv, a) }
 
   | KW_PHI t=typ table=separated_nonempty_list(COMMA, phi_table_entry)
     { INSTR_Phi (t, table) }

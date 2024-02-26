@@ -309,10 +309,12 @@ and instr : t -> Format.formatter -> Ollvm_ast.instr -> unit =
      (match a with None -> ()
                  | Some a -> fprintf ppf ", align %d" a)
 
-  | INSTR_Load (vol, tv, a) ->
+  | INSTR_Load (vol, ty, tv, a) ->
      pp_print_string ppf "load " ;
      if vol then pp_print_string ppf "volatile " ;
-     (tvalue env) ppf tv ;
+     typ ppf ty;
+     pp_print_string ppf ", " ;
+     (tident env) ppf tv ;
      (match a with None -> ()
                  | Some a -> fprintf ppf ", align %d" a)
 
@@ -553,7 +555,7 @@ and definition : t -> Format.formatter -> Ollvm_ast.definition -> unit =
 and block : t -> Format.formatter -> Ollvm_ast.block -> unit =
   fun env ppf (i, b) ->
   begin try pp_print_int ppf (find_local env i)
-        with Failure "int_of_string" -> pp_print_string ppf i end ;
+        with Failure _ -> pp_print_string ppf i end ;
   pp_print_char ppf ':' ;
   pp_open_box ppf 2 ;
   pp_force_newline ppf () ;

@@ -21,7 +21,7 @@
 {
   open Ollvm_parser
 
-  exception Lex_error_unterminated_string of Lexing.position
+  (* exception Lex_error_unterminated_string of Lexing.position *)
 
   let kw = function
   | "target"                       -> KW_TARGET
@@ -229,7 +229,7 @@
   (* catch_all *)
   | s -> failwith ("Unknown or unsupported keyword: " ^ s)
 
-  type ident_type = Named | NamedString | Unnamed
+  (* type ident_type = Named | NamedString | Unnamed *)
 
 }
 
