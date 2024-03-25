@@ -173,7 +173,7 @@ and value =
   | INSTR_FBinop of fbinop * fast_math list * typ * value * value
   | INSTR_FCmp of fcmp * typ * value * value
   | INSTR_Conversion of conversion_type * typ * value * typ
-  | INSTR_GetElementPtr of tvalue * tvalue list
+  | INSTR_GetElementPtr of typ * tvalue * tvalue list
   | INSTR_ExtractElement of tvalue * tvalue
   | INSTR_InsertElement of tvalue * tvalue * tvalue
   | INSTR_ShuffleVector of tvalue * tvalue * tvalue

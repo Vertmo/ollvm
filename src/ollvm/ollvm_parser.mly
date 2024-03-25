@@ -438,9 +438,9 @@ instr:
   | c=conversion t1=typ v=value KW_TO t2=typ
     { INSTR_Conversion (c, t1, v, t2) }
 
-  | KW_GETELEMENTPTR ?KW_INBOUNDS ptr=tvalue
+  | KW_GETELEMENTPTR ?KW_INBOUNDS ty=typ COMMA ptr=tvalue
     idx=preceded(COMMA, tvalue)*
-    { INSTR_GetElementPtr (ptr, idx) }
+    { INSTR_GetElementPtr (ty, ptr, idx) }
 
   | KW_TAIL? KW_CALL cconv? list(param_attr) f=tident
     a=delimited(LPAREN, separated_list(COMMA, call_arg), RPAREN)

@@ -292,8 +292,9 @@ and instr : t -> Format.formatter -> Ollvm_ast.instr -> unit =
              (value env) v
              typ t2
 
-  | INSTR_GetElementPtr (tv, tvl) ->
-     fprintf ppf "getelementptr %a, %a"
+  | INSTR_GetElementPtr (ty, tv, tvl) ->
+     fprintf ppf "getelementptr %a, %a, %a"
+             typ ty
              (tvalue env) tv
              (pp_print_list ~pp_sep:pp_comma_space (tvalue env)) tvl
 
