@@ -166,7 +166,7 @@ and icmp : Format.formatter -> Ollvm_ast.icmp -> unit =
   fun ppf icmp ->
   fprintf ppf ( match icmp with
                 | Eq  -> "eq"
-                | Ne  -> "neq"
+                | Ne  -> "ne"
                 | Ugt -> "ugt"
                 | Uge -> "uge"
                 | Ult -> "ult"
@@ -174,7 +174,7 @@ and icmp : Format.formatter -> Ollvm_ast.icmp -> unit =
                 | Sgt -> "sgt"
                 | Sge -> "sge"
                 | Slt -> "slt"
-                | Sle -> "cmp")
+                | Sle -> "sle")
 
 and fcmp : Format.formatter -> Ollvm_ast.fcmp -> unit =
   fun ppf fcmp ->
@@ -475,13 +475,18 @@ and global : t -> Format.formatter -> Ollvm_ast.global -> unit =
     g_section = s;
     g_align = a;
     g_value = vo;
-  } -> fprintf ppf "%a = %s %a"
-               (ident env) i (if b then "constant" else "global") typ t ;
-       (match vo with None -> () | Some v -> (value env) ppf v) ;
-       (match s with None -> ()
-                   | Some s -> fprintf ppf ", section %s" s) ;
-       (match a with None -> ()
-                   | Some a -> fprintf ppf ", align %d" a)
+    g_linkage = link;
+  } ->
+    fprintf ppf "%a = " (ident env) i;
+    (match link with None -> () | Some v -> linkage ppf v);
+    fprintf ppf " %s %a"
+      (if b then "constant" else "global")
+      typ t ;
+    (match vo with None -> () | Some v -> (value env) ppf v) ;
+    (match s with None -> ()
+                | Some s -> fprintf ppf ", section %s" s) ;
+    (match a with None -> ()
+                | Some a -> fprintf ppf ", align %d" a)
 
 and declaration : t -> Format.formatter -> Ollvm_ast.declaration -> unit =
   fun env ppf ->
