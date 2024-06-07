@@ -479,7 +479,7 @@ and global : t -> Format.formatter -> Ollvm_ast.global -> unit =
   } ->
     fprintf ppf "%a = " (ident env) i;
     (match link with None -> () | Some v -> linkage ppf v);
-    fprintf ppf " %s %a"
+    fprintf ppf " %s %a "
       (if b then "constant" else "global")
       typ t ;
     (match vo with None -> () | Some v -> (value env) ppf v) ;
