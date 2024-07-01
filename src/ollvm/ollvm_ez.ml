@@ -257,6 +257,7 @@ module Module = struct
         m_name = name ;
         m_target = Ollvm_ast.TLE_Target (arch ^ "-" ^ vendor ^ "-" ^ os) ;
         m_datalayout = Ollvm_ast.TLE_Datalayout data_layout ;
+        m_typedecls = [] ;
         m_globals = [] ;
         m_declarations = [] ;
         m_definitions = [] ;
@@ -296,6 +297,10 @@ module Module = struct
     let ident = Ollvm_ast.ID_Global name in
     let var = (t, Ollvm_ast.VALUE_Ident ident) in
     (m, var)
+
+  let typedecl m name t =
+    { m with m_module = { m.m_module with
+                          m_typedecls = (name, t) :: m.m_module.m_typedecls } }
 
   let lookup_declaration m name =
     List.assoc name m.m_module.m_declarations

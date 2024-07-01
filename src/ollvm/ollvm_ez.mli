@@ -273,6 +273,10 @@ module Module : sig
       declaration. *)
   val global : t -> Type.t -> string -> (t * Value.t)
 
+  (** [typedecl m name t] returns [m'] where [m'] is the new module
+      resultin in the type [ty] of nane [name] delcaration *)
+  val typedecl : t -> string -> Type.t -> t
+
   (** [declaration m dc] returns [m'], which is the same module than [m],
       with [dc] declaration registered. *)
   val declaration : t -> Ollvm_ast.declaration -> t

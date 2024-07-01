@@ -156,6 +156,7 @@ and typ : Format.formatter -> Ollvm_ast.typ -> unit =
   | TYPE_Function (t, tl) -> assert false (* (t, tl) : Format.formatter -> (typ * typ list) *)
   | TYPE_Struct tl        -> fprintf ppf "{%a}"
                                      (pp_print_list ~pp_sep:pp_comma_space typ) tl
+  | TYPE_Ident_struct i   -> fprintf ppf "%s" i
   | TYPE_Packed_struct tl -> fprintf ppf "<{%a}>"
                                      (pp_print_list ~pp_sep:pp_comma_space typ) tl
   | TYPE_Opaque           -> assert false
@@ -568,6 +569,11 @@ and block : t -> Format.formatter -> Ollvm_ast.block -> unit =
   pp_print_list ~pp_sep:pp_force_newline (instr env) ppf b ;
   pp_close_box ppf ()
 
+and typedecl : Format.formatter -> (string * typ) -> unit =
+  fun ppf (id, ty) ->
+  fprintf ppf "%s = type " id;
+  typ ppf ty
+
 and modul : t -> Format.formatter -> Ollvm_ast.modul -> unit =
   fun env ppf m ->
 
@@ -578,6 +584,9 @@ and modul : t -> Format.formatter -> Ollvm_ast.modul -> unit =
   pp_force_newline ppf () ;
 
   toplevelentry env ppf m.m_datalayout ;
+  pp_force_newline ppf () ;
+
+  pp_print_list ~pp_sep:pp_force_newline typedecl ppf m.m_typedecls;
   pp_force_newline ppf () ;
 
   pp_print_list ~pp_sep:pp_force_newline (global (reset_local env)) ppf

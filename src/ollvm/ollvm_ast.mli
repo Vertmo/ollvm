@@ -79,6 +79,7 @@ and typ =
   | TYPE_Array of (int * typ)
   | TYPE_Function of (typ * typ list)
   | TYPE_Struct of typ list
+  | TYPE_Ident_struct of string
   | TYPE_Packed_struct of typ list
   | TYPE_Opaque
   | TYPE_Vector of (int * typ)
@@ -232,6 +233,7 @@ and modul = {
   m_name : string;
   m_target : toplevelentry;
   m_datalayout : toplevelentry;
+  m_typedecls: (string * typ) list;
   m_globals : (string * global) list;
   m_declarations : (string * declaration) list;
   m_definitions : (string * definition) list;
