@@ -151,6 +151,10 @@ module Instr : sig
   val uitofp  : Value.t -> Type.t -> t
   val sitofp  : Value.t -> Type.t -> t
 
+  (* Pointer-int conversion *)
+  val inttoptr : Value.t -> Type.t -> t
+  val ptrtoint : Value.t -> Type.t -> t
+
   (** [extractvalue agg idx_list] *)
   val extractvalue : Value.t -> int list -> t
 

@@ -139,6 +139,8 @@ module Instr = struct
   let fpext = convert Ollvm_ast.Fpext let fptoui = convert Ollvm_ast.Fptoui
   let fptosi = convert Ollvm_ast.Fptosi let uitofp = convert Ollvm_ast.Uitofp
   let sitofp = convert Ollvm_ast.Sitofp
+  let inttoptr = convert Ollvm_ast.Inttoptr
+  let ptrtoint = convert Ollvm_ast.Ptrtoint
 
   let extractvalue agg idx =
     (fst agg, Ollvm_ast.INSTR_ExtractValue (agg, idx))
