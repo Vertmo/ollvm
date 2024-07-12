@@ -141,6 +141,7 @@ module Instr = struct
   let sitofp = convert Ollvm_ast.Sitofp
   let inttoptr = convert Ollvm_ast.Inttoptr
   let ptrtoint = convert Ollvm_ast.Ptrtoint
+  let bitcast = convert Ollvm_ast.Bitcast
 
   let extractvalue agg idx =
     (fst agg, Ollvm_ast.INSTR_ExtractValue (agg, idx))
