@@ -6,6 +6,7 @@ module Type = struct
 
   let i1 = TYPE_I 1
   let i32 = TYPE_I 32
+  let i64 = TYPE_I 64
   let half = TYPE_Half
   let float = TYPE_Float
   let double = TYPE_Double

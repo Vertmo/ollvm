@@ -9,6 +9,7 @@ module Type : sig
 
   val i1 : t
   val i32 : t
+  val i64 : t
   val half : t
   val float : t
   val double : t
