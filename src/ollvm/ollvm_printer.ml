@@ -156,7 +156,7 @@ and typ : Format.formatter -> Ollvm_ast.typ -> unit =
   | TYPE_Function (t, tl) -> assert false (* (t, tl) : Format.formatter -> (typ * typ list) *)
   | TYPE_Struct tl        -> fprintf ppf "{%a}"
                                      (pp_print_list ~pp_sep:pp_comma_space typ) tl
-  | TYPE_Ident_struct i   -> fprintf ppf "%s" i
+  | TYPE_Ident i          -> fprintf ppf "%s" i
   | TYPE_Packed_struct tl -> fprintf ppf "<{%a}>"
                                      (pp_print_list ~pp_sep:pp_comma_space typ) tl
   | TYPE_Opaque           -> assert false

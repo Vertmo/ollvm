@@ -79,9 +79,9 @@ and typ =
   | TYPE_Array of (int * typ)
   | TYPE_Function of (typ * typ list)
   | TYPE_Struct of typ list
-  | TYPE_Ident_struct of string
   | TYPE_Packed_struct of typ list
   | TYPE_Opaque
+  | TYPE_Ident of string
   | TYPE_Vector of (int * typ)
 and metadata =
     METADATA_Const of tvalue
