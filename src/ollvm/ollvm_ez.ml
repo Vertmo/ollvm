@@ -33,11 +33,11 @@ module Value = struct
 
   let double f = (Type.double, Ollvm_ast.VALUE_Float f)
 
-  let vector l =
-    (Type.vector (List.length l) (fst (List.hd l)), Ollvm_ast.VALUE_Vector l)
+  (* let vector l = *)
+  (*   (Type.vector (List.length l) (fst (List.hd l)), Ollvm_ast.VALUE_Vector l) *)
 
-  let array l =
-    (Type.array (List.length l) (fst (List.hd l)), Ollvm_ast.VALUE_Array l)
+  (* let array l = *)
+  (*   (Type.array (List.length l) (fst (List.hd l)), Ollvm_ast.VALUE_Array l) *)
 
   let structure l =
     (Type.structure (List.map fst l),
@@ -45,6 +45,16 @@ module Value = struct
 
   let ident (t, Ollvm_ast.VALUE_Ident id) = (t, id)
 
+end
+
+module Const = struct
+  type t = Type.t * Ollvm_ast.const
+
+  let value (ty, v) = ty, Ollvm_ast.CONST_Value v
+  let add (ty1, c1) tc2 = ty1, Ollvm_ast.CONST_AddExpr((ty1, c1), tc2)
+
+  let inttoptr tc ty = ty, Ollvm_ast.CONST_IntToPtrExpr(tc, ty)
+  let ptrtoint tc ty = ty, Ollvm_ast.CONST_PtrToIntExpr(tc, ty)
 end
 
 module Instr = struct

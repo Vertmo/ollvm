@@ -154,6 +154,8 @@ and tvalue = typ * value
 
 and tident = typ * ident
 
+and tconst = typ * const
+
 (** FIXME: should be splitted into const/value? *)
 and value =
   | VALUE_Ident of ident
@@ -164,9 +166,17 @@ and value =
   | VALUE_Undef
   | VALUE_Struct of tvalue list
   | VALUE_Packed_struct of tvalue list
-  | VALUE_Array of tvalue list
-  | VALUE_Vector of tvalue list
   | VALUE_Zero_initializer
+
+and const =
+  | CONST_Value of value
+  | CONST_Array of tconst list
+  | CONST_Vector of tconst list
+  | CONST_AddExpr of tconst * tconst
+  (* TODO there are others *)
+  | CONST_GetElementPtr of typ * tconst * tconst list
+  | CONST_PtrToIntExpr of tconst * typ
+  | CONST_IntToPtrExpr of tconst * typ
 
  and instr =
   | INSTR_IBinop of ibinop * typ * value * value
@@ -224,7 +234,7 @@ and global = {
   g_ident: ident;
   g_typ: typ;
   g_constant: bool;
-  g_value: value option;
+  g_value: const option;
 
   g_linkage: linkage option;
   g_visibility: visibility option;

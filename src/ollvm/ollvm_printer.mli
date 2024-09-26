@@ -26,8 +26,10 @@ val fast_math : Format.formatter -> Ollvm_ast.fast_math -> unit
 val conversion_type : Format.formatter -> Ollvm_ast.conversion_type -> unit
 val instr : t -> Format.formatter -> Ollvm_ast.instr -> unit
 val value : t -> Format.formatter -> Ollvm_ast.value -> unit
+val const : t -> Format.formatter -> Ollvm_ast.const -> unit
 val tvalue : t -> Format.formatter -> Ollvm_ast.tvalue -> unit
 val tident : t -> Format.formatter -> Ollvm_ast.tident -> unit
+val tconst : t -> Format.formatter -> Ollvm_ast.tconst -> unit
 val toplevelentries :
   t -> Format.formatter -> Ollvm_ast.toplevelentries -> unit
 val toplevelentry : t -> Format.formatter -> Ollvm_ast.toplevelentry -> unit

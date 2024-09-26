@@ -422,19 +422,37 @@ and value : t -> Format.formatter -> Ollvm_ast.value -> unit =
   | VALUE_Bool b            -> pp_print_bool ppf b
   | VALUE_Null              -> pp_print_string ppf "null"
   | VALUE_Undef             -> pp_print_string ppf "undef"
-  | VALUE_Array tvl         -> fprintf ppf "[%a]"
-                                       (pp_print_list ~pp_sep:pp_comma_space (tvalue env)) tvl
-  | VALUE_Vector tvl        -> fprintf ppf "<%a>"
-                                       (pp_print_list ~pp_sep:pp_comma_space (tvalue env)) tvl
   | VALUE_Struct tvl        -> fprintf ppf "{%a}"
                                        (pp_print_list ~pp_sep:pp_comma_space (tvalue env)) tvl
   | VALUE_Packed_struct tvl -> fprintf ppf "<{%a}>"
                                        (pp_print_list ~pp_sep:pp_comma_space (tvalue env)) tvl
   | VALUE_Zero_initializer  -> pp_print_string ppf "zeroinitializer"
 
+and const : t -> Format.formatter -> Ollvm_ast.const -> unit =
+  fun env ppf ->
+  function
+  | CONST_Value v -> value env ppf v
+  | CONST_Array tvl -> fprintf ppf "[%a]"
+                         (pp_print_list ~pp_sep:pp_comma_space (tconst env)) tvl
+  | CONST_Vector tvl -> fprintf ppf "<%a>"
+                          (pp_print_list ~pp_sep:pp_comma_space (tconst env)) tvl
+  | CONST_AddExpr (tv1, tv2) ->
+    fprintf ppf "add(%a, %a)" (tconst env) tv1 (tconst env) tv2
+  | CONST_GetElementPtr (ty, tv, tvl) ->
+    fprintf ppf "getelementptr(%a, %a, %a)"
+      typ ty
+      (tconst env) tv
+      (pp_print_list ~pp_sep:pp_comma_space (tconst env)) tvl
+  | CONST_PtrToIntExpr (tv, ty) ->
+    fprintf ppf "ptrtoint(%a to %a)" (tconst env) tv typ ty
+  | CONST_IntToPtrExpr (tv, ty) ->
+    fprintf ppf "inttoptr(%a to %a)" (tconst env) tv typ ty
+
 and tvalue env ppf (t, v) = fprintf ppf "%a %a" typ t (value env) v
 
 and tident env ppf (t, v) = fprintf ppf "%a %a" typ t (ident env) v
+
+and tconst env ppf (t, v) = fprintf ppf "%a %a" typ t (const env) v
 
 and toplevelentries : t -> Format.formatter -> Ollvm_ast.toplevelentries -> unit =
   fun env ppf entries ->
@@ -483,7 +501,7 @@ and global : t -> Format.formatter -> Ollvm_ast.global -> unit =
     fprintf ppf " %s %a "
       (if b then "constant" else "global")
       typ t ;
-    (match vo with None -> () | Some v -> (value env) ppf v) ;
+    (match vo with None -> () | Some v -> (const env) ppf v) ;
     (match s with None -> ()
                 | Some s -> fprintf ppf ", section %s" s) ;
     (match a with None -> ()

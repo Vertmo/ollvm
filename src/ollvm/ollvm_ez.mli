@@ -38,11 +38,21 @@ module Value : sig
   val half : float -> t
   val float : float -> t
   val double : float -> t
-  val vector : t list -> t
-  val array : t list -> t
+  (* val vector : t list -> t *)
+  (* val array : t list -> t *)
   val structure : t list -> t
   val ident : t -> Type.t * Ollvm_ast.ident
 
+end
+
+module Const : sig
+  type t = Type.t * Ollvm_ast.const
+
+  val value : Value.t -> t
+  val add : t -> t -> t
+
+  val inttoptr : t -> Type.t -> t
+  val ptrtoint : t -> Type.t -> t
 end
 
 (** Instruction creation. *)
